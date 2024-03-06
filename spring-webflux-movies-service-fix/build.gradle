@@ -1,0 +1,44 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.5'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'com.belrose'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	//validator
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+    testImplementation 'junit:junit:4.13.2'
+
+	//lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	//test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.6.2'//Dependency used to write integration test
+	testImplementation 'io.projectreactor:reactor-test'
+
+	//wiremock
+	testImplementation 'org.springframework.cloud:spring-cloud-contract-wiremock:4.0.2'
+	testImplementation 'com.github.tomakehurst:wiremock-jre8:2.35.0'
+	//implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-contract-stub-runner', version: '4.0.2'
+}
+sourceSets{
+	test {
+		java.srcDirs = ['src/test/java/moviesservice/unit', 'src/test/java/moviesservice/intg']
+	}
+}
+tasks.named('test') {
+	useJUnitPlatform()
+}
